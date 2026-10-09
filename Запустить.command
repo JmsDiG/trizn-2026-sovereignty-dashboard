@@ -14,7 +14,4 @@ fi
 export PATH="$(dirname "$trizn_node"):$PATH"
 if [ ! -d node_modules ]; then npm ci; fi
 if [ ! -f dist/index.html ]; then npm run build; fi
-echo "Экран зала: http://localhost:8787/"
-echo "Помощнику: http://localhost:8787/edit"
-echo "На втором компьютере используйте адрес этого компьютера в локальной сети вместо localhost."
-HOST=0.0.0.0 "$trizn_node" --env-file-if-exists=.env server/index.mjs
+"$trizn_node" --env-file-if-exists=.env server/start-local.mjs
