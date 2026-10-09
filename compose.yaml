@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      EDITOR_CODE: ${EDITOR_CODE:?Set EDITOR_CODE in .env}
+      SECURE_COOKIES: "1"
+    volumes:
+      - portrait-data:/data
+    expose:
+      - "8787"
+  web:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DASHBOARD_DOMAIN: ${DASHBOARD_DOMAIN:?Set DASHBOARD_DOMAIN in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+volumes:
+  portrait-data:
+  caddy-data:
+  caddy-config:
